@@ -6,27 +6,45 @@ on:
 jobs:
   validate:
     runs-on: ubuntu-latest
+
     strategy:
       fail-fast: true
       matrix:
-        python-version: ["3.14"]
+        python-version: ["3.12","3.14"]
 
     steps:
-      - uses: actions/checkout@v7
-      - name: setup python
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Python
         uses: actions/setup-python@v7
         with:
-          python-version: ${{matrix.python-version}}
+          python-version: ${{ matrix.python-version }}
 
-      - name: Install dependency
-        run: pip install --no-cache-dir -r requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install --no-cache-dir -r requirements.txt 
 
-      - name: run linter
-        run: flake8 app.py
+      - name: Run Flake8
+        run: |
+          flake8 app.py
 
-      - name: bandit SAST
-        run: bandit -r ./ -f json -o security_report.json
+      - name: Run Bandit SAST
+        run: |
+          bandit -r . \
+            --exclude ./venv,./.venv \
+            -f json \
+            -o security_report.json
 
       - name: Display Bandit Results
+        if: always()
         run: |
           cat security_report.json
+
+      - name: Upload Bandit Report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: bandit-security-report
+          path: security_report.json
