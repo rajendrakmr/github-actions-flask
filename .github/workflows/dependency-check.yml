@@ -16,7 +16,7 @@ jobs:
             python-version: 3.14
 
       - name: Install pip audit
-        run: pip install pip-audit 
+        run: pip install --no-cache-dir pip-audit 
 
       - name: Audit dependency
         run: pip-audit -r requirements.txt

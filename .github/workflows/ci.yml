@@ -35,3 +35,4 @@ jobs:
        - build-and-push 
        - docker-validate
     uses: ./.github/workflows/image-scan.yml
+    secrets: inherit
