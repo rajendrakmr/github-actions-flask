@@ -8,7 +8,6 @@ on:
   workflow_dispatch:
 
 jobs:
-
   code-quality:
     uses: ./.github/workflows/code-quaility.yml
 
@@ -22,8 +21,17 @@ jobs:
   docker-validate:
     uses: ./.github/workflows/docker-lint.yml
 
-  docker-image:
-    uses: ./.github/workflows/image-scan.yml
-
   build-and-push:
+    needs: 
+       - code-quality
+       - secrets
+       - dependency
+       - docker-validate
     uses: ./.github/workflows/build-push.yml
+    secrets: inherit
+
+  docker-image:
+    needs: 
+       - build-and-push 
+       - docker-validate
+    uses: ./.github/workflows/image-scan.yml
