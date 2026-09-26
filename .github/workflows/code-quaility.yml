@@ -24,4 +24,5 @@ jobs:
       - name: run linter
         run: flake8 app.py
 
-       
+      - name: bandit SAST
+        run: bandit -r ./ -f json -o security_report.json
