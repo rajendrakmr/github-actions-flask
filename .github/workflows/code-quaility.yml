@@ -33,7 +33,7 @@ jobs:
       - name: Run Bandit SAST
         run: |
           bandit -r . \
-            --exclude ./venv,./.venv \
+            --exclude ./.git,./venv,./.venv \
             -f json \
             -o security_report.json
 
