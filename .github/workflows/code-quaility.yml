@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        python-version: ["3.13", "3.14"]
+        python-version: ["3.12", "3.14"]
 
     steps:
       - uses: actions/checkout@v7
@@ -17,12 +17,16 @@ jobs:
         uses: actions/setup-python@v7
         with:
           python-version: ${{matrix.python-version}}
-        
+
       - name: Install dependency
         run: pip install -r requirements.txt
-    
+
       - name: run linter
         run: flake8 app.py
 
       - name: bandit SAST
         run: bandit -r ./ -f json -o security_report.json
+
+      - name: Display Bandit Results
+        run: |
+          cat security_report.json
