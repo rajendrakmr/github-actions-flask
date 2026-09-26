@@ -4,7 +4,7 @@ on:
     workflow_call:
     
 jobs:
-    image-scan:
+    scan:
         runs-on: ubuntu-latest
         steps:
             - name: Docker Login
