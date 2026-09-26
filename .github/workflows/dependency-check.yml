@@ -1,11 +1,22 @@
 name: Dependency Check
 
 on:
-    workflow_call:
+  workflow_call:
 
 jobs:
-    dependecy_check:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout code 
-              uses: actions/checkout@v7
+  dependecy_check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup python
+        uses: actions/setup-python@v7
+        with:
+            python-version: 3.14
+
+      - name: Install pip audit
+        run: pip install pip-audit 
+
+      - name: Audit dependency
+        run: pip-audit -r requirements.txt
