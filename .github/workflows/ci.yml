@@ -1,28 +1,29 @@
-name: DevSecOps pipeline end to end
+name: DevSecOps Pipeline - End to End
 
 on:
-    push:
-        branches: [rajendra]
-    workflow_dispatch:
+  push:
+    branches:
+      - rajendra
 
+  workflow_dispatch:
 
 jobs:
-    code-quality:
-        - uses: ./.github/workflows/code-quality.yml
 
-    secrtes:
-        - uses: ./.github/workflows/secrets-scan.yml
-          secrets: inhirit
-    
-    dependency:
-        - uses: ./.github/workflows/dependency-check.yml
+  code-quality:
+    uses: ./.github/workflows/code-quaility.yml
 
-    docker-validate:
-        - uses: ./.github/workflows/docker-lint.yml
+  secrets:
+    uses: ./.github/workflows/secrets-scan.yml
+    secrets: inherit
 
-    docker-image:
-        - uses: ./.github/workflows/image-scan.yml
-    
-    buil-and-push:
-        - uses: ./.github/workflows/build-push.yml
-    
+  dependency:
+    uses: ./.github/workflows/dependency-check.yml
+
+  docker-validate:
+    uses: ./.github/workflows/docker-lint.yml
+
+  docker-image:
+    uses: ./.github/workflows/image-scan.yml
+
+  build-and-push:
+    uses: ./.github/workflows/build-push.yml
