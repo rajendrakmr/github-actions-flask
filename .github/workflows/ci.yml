@@ -10,7 +10,7 @@ on:
 jobs:
 
   code-quality:
-    uses: ./.github/workflows/code-quality.yml
+    uses: ./.github/workflows/code-quaility.yml
 
   secrets:
     uses: ./.github/workflows/secrets-scan.yml
